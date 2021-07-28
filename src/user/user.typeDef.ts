@@ -26,7 +26,7 @@ export default gql`
       password: String!
     ): User
 
-    login(username: String!, password: String!): LoginResult
+    login(username: String! password: String!): LoginResult
   }
 
   type Query {

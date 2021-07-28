@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import client from '../client';
 
 export default {
@@ -36,16 +37,17 @@ export default {
       }
 
       const passwordOk = await bcrypt.compare(password, findUser.password);
-      if (passwordOk) {
+      if (!passwordOk) {
         return {
-          ok: true,
-          token: 'abccc',
+          ok: false,
+          error: 'Incorrect password',
         };
       }
 
+      const token = jwt.sign({ id: findUser.id }, process.env.TOKEN_SECRET_KEY || '');
       return {
-        ok: false,
-        error: 'Incorrect password',
+        ok: true,
+        token,
       };
     },
   },
