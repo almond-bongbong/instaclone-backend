@@ -1,3 +1,4 @@
+import { ResolverFn } from 'apollo-server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import client from '../client';
 
@@ -8,7 +9,19 @@ export const getUser = async (token) => {
     const user = await client.user.findUnique({ where: { id: verifiedToken.id } });
     return user || null;
   } catch (error) {
-    console.error(error);
+    console.error('invalid token');
     return null;
   }
 };
+
+export const protectedResolver =
+  (resolver): ResolverFn =>
+  (root, args, context, info) => {
+    if (!context.loggedInUser) {
+      return {
+        ok: false,
+        error: 'Please log in to perform this action.',
+      };
+    }
+    return resolver(root, args, context, info);
+  };
