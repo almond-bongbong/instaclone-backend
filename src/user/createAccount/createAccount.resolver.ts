@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
-import client from '../../client';
 import { PASSWORD_HASH_ROUND } from '../../common/constant';
+import { Resolvers } from '../../type';
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
-    createAccount: async (_, { firstName, lastName, username, email, password }) => {
+    createAccount: async (_, { firstName, lastName, username, email, password }, { client }) => {
       const existingUser = await client.user.findFirst({
         where: {
           OR: [{ username }, { email }],
@@ -32,3 +32,5 @@ export default {
     },
   },
 };
+
+export default resolvers;

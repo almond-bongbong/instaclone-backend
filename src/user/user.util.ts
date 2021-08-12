@@ -1,6 +1,7 @@
 import { ResolverFn } from 'apollo-server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import client from '../client';
+import { ProtectedResolver } from '../type';
 
 export const getUser = async (token) => {
   try {
@@ -15,7 +16,7 @@ export const getUser = async (token) => {
 };
 
 export const protectedResolver =
-  (resolver): ResolverFn =>
+  (resolver: ProtectedResolver): ResolverFn =>
   (root, args, context, info) => {
     if (!context.loggedInUser) {
       return {
@@ -23,5 +24,6 @@ export const protectedResolver =
         error: 'Please log in to perform this action.',
       };
     }
+
     return resolver(root, args, context, info);
   };

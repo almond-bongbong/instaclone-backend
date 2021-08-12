@@ -10,7 +10,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model user {
+model User {
   id        Int      @id @default(autoincrement())
   firstName String
   lastName  String?

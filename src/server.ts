@@ -3,6 +3,7 @@ dotenv.config();
 import { ApolloServer } from 'apollo-server';
 import schema from './schema';
 import { getUser } from './user/user.util';
+import client from './client';
 
 const server = new ApolloServer({
   schema,
@@ -12,6 +13,7 @@ const server = new ApolloServer({
 
     return {
       loggedInUser: user,
+      client,
     };
   },
 });
