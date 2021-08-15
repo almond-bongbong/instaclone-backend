@@ -6,7 +6,11 @@ import { protectedResolver } from '../user.util';
 export default {
   Mutation: {
     editProfile: protectedResolver(
-      async (_, { firstName, lastName, username, email, password }, { loggedInUser }) => {
+      async (
+        _,
+        { firstName, lastName, username, email, password, bio, avatar },
+        { loggedInUser }
+      ) => {
         try {
           await client.user.update({
             where: { id: loggedInUser.id },
@@ -15,6 +19,8 @@ export default {
               lastName,
               username,
               email,
+              bio,
+              avatar,
               password: password && (await bcrypt.hash(password, PASSWORD_HASH_ROUND)),
             },
           });
