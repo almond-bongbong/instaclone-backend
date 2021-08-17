@@ -14,17 +14,22 @@
   "dependencies": {
     "@prisma/client": "^2.27.0",
     "apollo-server": "^3.1.2",
+    "apollo-server-express": "^3.1.2",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "express": "^4.17.1",
     "graphql": "^15.5.1",
     "graphql-tools": "^7.0.5",
-    "jsonwebtoken": "^8.5.1"
+    "graphql-upload": "^12.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
     "@types/bcrypt": "^5.0.0",
+    "@types/graphql-upload": "^8.0.6",
     "@types/jsonwebtoken": "^8.5.4",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",

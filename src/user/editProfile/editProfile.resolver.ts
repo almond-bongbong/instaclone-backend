@@ -11,6 +11,8 @@ export default {
         { firstName, lastName, username, email, password, bio, avatar },
         { loggedInUser }
       ) => {
+        console.log(avatar);
+
         try {
           await client.user.update({
             where: { id: loggedInUser.id },
@@ -20,7 +22,7 @@ export default {
               username,
               email,
               bio,
-              avatar,
+              // avatar,
               password: password && (await bcrypt.hash(password, PASSWORD_HASH_ROUND)),
             },
           });
