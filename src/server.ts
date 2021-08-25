@@ -4,6 +4,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import dotenv from 'dotenv';
 import client from './client';
 import { resolvers, typeDefs } from './schema';
+import logger from 'morgan';
 import { getUser } from './user/user.util';
 dotenv.config();
 
@@ -25,7 +26,10 @@ const PORT = process.env.PORT;
 async function startServer() {
   await server.start();
   const app = express();
+
+  app.use(logger('tiny'));
   app.use(graphqlUploadExpress());
+  
   server.applyMiddleware({ app });
   await new Promise((resolve) => app.listen({ port: PORT }, () => resolve(null)));
 

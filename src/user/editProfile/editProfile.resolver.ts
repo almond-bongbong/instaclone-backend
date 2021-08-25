@@ -1,8 +1,11 @@
 import bcrypt from 'bcrypt';
+import fs from 'fs';
 import { FileUpload } from 'graphql-upload';
 import client from '../../client';
 import { PASSWORD_HASH_ROUND } from '../../common/constant';
 import { protectedResolver } from '../user.util';
+
+const UPLOAD_PATH = 'uploads';
 
 export default {
   Mutation: {
@@ -13,9 +16,9 @@ export default {
         { loggedInUser }
       ) => {
         const { filename, createReadStream }: FileUpload = await avatar;
-        const stream = createReadStream();
-        // stream.read
-        console.log(filename, stream);
+        const readStream = createReadStream();
+        const writeStream = fs.createWriteStream(`${process.cwd()}/${UPLOAD_PATH}/${filename}`);
+        readStream.pipe(writeStream);
 
         try {
           await client.user.update({
