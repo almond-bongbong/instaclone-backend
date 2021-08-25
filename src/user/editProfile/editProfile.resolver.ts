@@ -26,7 +26,6 @@ export default {
               username,
               email,
               bio,
-              // avatar,
               password: password && (await bcrypt.hash(password, PASSWORD_HASH_ROUND)),
             },
           });
