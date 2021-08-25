@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { FileUpload } from 'graphql-upload';
 import client from '../../client';
 import { PASSWORD_HASH_ROUND } from '../../common/constant';
 import { protectedResolver } from '../user.util';
@@ -11,7 +12,10 @@ export default {
         { firstName, lastName, username, email, password, bio, avatar },
         { loggedInUser }
       ) => {
-        console.log(avatar);
+        const { filename, createReadStream }: FileUpload = await avatar;
+        const stream = createReadStream();
+        // stream.read
+        console.log(filename, stream);
 
         try {
           await client.user.update({
