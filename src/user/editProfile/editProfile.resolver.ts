@@ -2,10 +2,8 @@ import bcrypt from 'bcrypt';
 import fs from 'fs';
 import { FileUpload } from 'graphql-upload';
 import client from '../../client';
-import { PASSWORD_HASH_ROUND } from '../../common/constant';
+import { PASSWORD_HASH_ROUND, UPLOAD_PATH } from '../../common/constant';
 import { protectedResolver } from '../user.util';
-
-const UPLOAD_PATH = 'uploads';
 
 export default {
   Mutation: {

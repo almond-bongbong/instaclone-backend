@@ -6,9 +6,10 @@ import client from './client';
 import { resolvers, typeDefs } from './schema';
 import logger from 'morgan';
 import { getUser } from './user/user.util';
+import { UPLOAD_PATH } from './common/constant';
 dotenv.config();
 
-const server = new ApolloServer({
+const apollo = new ApolloServer({
   resolvers,
   typeDefs,
   context: async ({ req }) => {
@@ -24,16 +25,17 @@ const server = new ApolloServer({
 const PORT = process.env.PORT;
 
 async function startServer() {
-  await server.start();
+  await apollo.start();
   const app = express();
 
   app.use(logger('tiny'));
+  app.use('/static', express.static(UPLOAD_PATH));
   app.use(graphqlUploadExpress());
-  
-  server.applyMiddleware({ app });
+
+  apollo.applyMiddleware({ app });
   await new Promise((resolve) => app.listen({ port: PORT }, () => resolve(null)));
 
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(`🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`);
 }
 
 startServer();
