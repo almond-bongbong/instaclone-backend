@@ -13,10 +13,18 @@ export default {
         { firstName, lastName, username, email, password, bio, avatar },
         { loggedInUser }
       ) => {
-        const { filename, createReadStream }: FileUpload = await avatar;
-        const readStream = createReadStream();
-        const writeStream = fs.createWriteStream(`${process.cwd()}/${UPLOAD_PATH}/${filename}`);
-        readStream.pipe(writeStream);
+        let newAvatarUrl;
+
+        if (avatar) {
+          const { filename, createReadStream }: FileUpload = await avatar;
+          const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+          const readStream = createReadStream();
+          const writeStream = fs.createWriteStream(
+            `${process.cwd()}/${UPLOAD_PATH}/${newFilename}`
+          );
+          readStream.pipe(writeStream);
+          newAvatarUrl = `http://localhost:4003/static/${newFilename}`;
+        }
 
         try {
           await client.user.update({
@@ -27,6 +35,7 @@ export default {
               username,
               email,
               bio,
+              avatar: newAvatarUrl,
               password: password && (await bcrypt.hash(password, PASSWORD_HASH_ROUND)),
             },
           });
