@@ -1,6 +1,6 @@
 import { protectedResolver } from '../user.util';
 import client from '../../client';
-import { Resolvers } from '../../type';
+import { Resolvers } from '../../types';
 
 const resolvers: Resolvers = {
   Mutation: {

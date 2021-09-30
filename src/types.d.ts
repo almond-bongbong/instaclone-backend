@@ -1,4 +1,5 @@
 import { PrismaClient, User } from '@prisma/client';
+import { GraphQLScalarType } from 'graphql';
 
 interface Context {
   loggedInUser?: User;
@@ -12,8 +13,12 @@ interface LoggedInContext extends Context {
 export type Resolver = (root: any, args: any, context: Context, info: any) => any;
 export type ProtectedResolver = (root: any, args: any, context: LoggedInContext, info: any) => any;
 
-export type Resolvers = {
-  [key: string]: {
-    [key: string]: Resolver;
-  };
-};
+export type Resolvers =
+  | {
+      [key: string]: {
+        [key: string]: Resolver;
+      };
+    }
+  | {
+      Upload: GraphQLScalarType;
+    };

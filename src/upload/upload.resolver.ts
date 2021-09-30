@@ -1,6 +1,7 @@
-import { GraphQLUpload } from 'graphql-tools';
+import { GraphQLUpload } from 'graphql-upload';
+import { Resolvers } from '../types';
 
-const resolvers = {
+const resolvers: Resolvers = {
   Upload: GraphQLUpload,
 };
 

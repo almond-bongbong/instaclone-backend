@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { PASSWORD_HASH_ROUND } from '../../common/constant';
-import { Resolvers } from '../../type';
+import { Resolvers } from '../../types';
 
 const resolvers: Resolvers = {
   Mutation: {

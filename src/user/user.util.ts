@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import client from '../client';
-import { ProtectedResolver } from '../type';
+import { ProtectedResolver } from '../types';
 
 export const getUser = async (token) => {
   try {

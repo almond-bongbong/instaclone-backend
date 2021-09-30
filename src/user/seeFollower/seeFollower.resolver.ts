@@ -1,4 +1,4 @@
-import { Resolvers } from '../../type';
+import { Resolvers } from '../../types';
 import client from '../../client';
 
 const LIMIT = 5;
