@@ -3,13 +3,47 @@ import { Resolvers } from '../types';
 
 const resolvers: Resolvers = {
   User: {
-    totalFollowing: (parent: User, _, { client }) => {
-      console.log(parent);
-      // const totalFollowing = await client.user.
-      return 0;
+    isMe: (parent: User, _, { loggedInUser }) => parent.id === loggedInUser?.id,
+    totalFollowing: (parent: User, _, { client }) =>
+      client.user.count({
+        where: {
+          followers: {
+            some: { id: parent.id },
+          },
+        },
+      }),
+    totalFollowers: (parent: User, _, { client }) =>
+      client.user.count({
+        where: {
+          following: {
+            some: { id: parent.id },
+          },
+        },
+      }),
+    isFollowing: async (parent, _, { client, loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+
+      // const following = await client.user
+      //   .findUnique({ where: { id: loggedInUser.id } })
+      //   .following({ where: { id: parent.id } });
+
+      //   return following.length > 0;
+
+      const exists = await client.user.count({
+        where: {
+          id: loggedInUser.id,
+          following: {
+            some: {
+              id: parent.id,
+            },
+          },
+        },
+      });
+
+      return exists > 0;
     },
-    totalFollowers: () => 666,
-    isFollowing: () => true,
   },
 };
 
