@@ -16,7 +16,7 @@ const resolvers: Resolvers = {
           file,
           caption,
           ...(hashtags?.length > 0 && {
-            hashtag: {
+            hashtags: {
               connectOrCreate: hashtags.map((hashtag) => ({
                 where: { hashtag },
                 create: { hashtag },
