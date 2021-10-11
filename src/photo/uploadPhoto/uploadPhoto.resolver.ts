@@ -3,12 +3,10 @@ import { protectedResolver } from '../../user/user.util';
 
 const resolvers: Resolvers = {
   Mutation: {
-    uploadPhoto: protectedResolver(async (_, { file, caption }, { client, loggedInUser }) => {
+    uploadPhoto: protectedResolver((_, { file, caption }, { client, loggedInUser }) => {
       const hashtags = caption && caption.match(/#[\w]+/g);
 
-      console.log('hi!', hashtags);
-
-      await client.photo.create({
+      return client.photo.create({
         data: {
           user: {
             connect: {
@@ -17,16 +15,16 @@ const resolvers: Resolvers = {
           },
           file,
           caption,
-          hashtag: hashtags && {
-            connectOrCreate: hashtags.map((hashtag) => ({
-              where: { hashtag },
-              create: { hashtag },
-            })),
-          },
+          ...(hashtags?.length > 0 && {
+            hashtag: {
+              connectOrCreate: hashtags.map((hashtag) => ({
+                where: { hashtag },
+                create: { hashtag },
+              })),
+            },
+          }),
         },
       });
-      // save the photo with the parsed hashtags
-      // add the photo to the hashtags
     }),
   },
 };
