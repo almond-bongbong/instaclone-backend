@@ -1,5 +1,6 @@
 import { Resolvers } from '../../types';
 import { protectedResolver } from '../../user/user.util';
+import { processHashtag } from '../photo.util';
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -17,10 +18,7 @@ const resolvers: Resolvers = {
           caption,
           ...(hashtags?.length > 0 && {
             hashtags: {
-              connectOrCreate: hashtags.map((hashtag) => ({
-                where: { hashtag },
-                create: { hashtag },
-              })),
+              connectOrCreate: processHashtag(caption),
             },
           }),
         },
