@@ -44,6 +44,12 @@ const resolvers: Resolvers = {
 
       return exists > 0;
     },
+    photos: (parent: User, _, { client }) =>
+      client.user
+        .findUnique({
+          where: { id: parent.id },
+        })
+        .photos(),
   },
 };
 
