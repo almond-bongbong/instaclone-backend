@@ -13,6 +13,8 @@ const resolvers: Resolvers = {
           photos: { some: { id: parent.id } },
         },
       }),
+    likeCount: (parent: Photo, _, { client }) =>
+      client.like.count({ where: { photoId: parent.id } }),
   },
 };
 
