@@ -15,6 +15,9 @@ const resolvers: Resolvers = {
       }),
     likeCount: (parent: Photo, _, { client }) =>
       client.like.count({ where: { photoId: parent.id } }),
+    commentCount: (parent: Photo, _, { client }) =>
+      client.comment.count({ where: { photoId: parent.id } }),
+    isMine: (parent: Photo, _, { loggedInUser }) => parent.userId === loggedInUser?.id,
   },
 };
 
