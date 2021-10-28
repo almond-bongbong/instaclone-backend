@@ -1,4 +1,4 @@
-import { TypeInfo } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import client from '../client';
 import { ProtectedResolver } from '../types';
@@ -15,10 +15,16 @@ export const getUser = async (token) => {
   }
 };
 
-export const protectedResolver = (resolver: ProtectedResolver) => (root, args, context, info: TypeInfo) => {
-  if (!context.loggedInUser) {
-    throw new Error('Please log in to perform this action.');
-  }
+export const protectedResolver =
+  (resolver: ProtectedResolver) => (root, args, context, info: GraphQLResolveInfo) => {
+    const isQueryType = info.operation.operation === 'query';
 
-  return resolver(root, args, context, info);
-};
+    return isQueryType
+      ? null
+      : {
+          ok: false,
+          error: 'Please log in to perform this action.',
+        };
+
+    return resolver(root, args, context, info);
+  };
